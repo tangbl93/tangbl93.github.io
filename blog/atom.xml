@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://tangbl93.github.io/blog</id>
+    <title>Docusaurus Blog</title>
+    <updated>2021-05-01T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://tangbl93.github.io/blog"/>
+    <subtitle>Docusaurus Blog</subtitle>
+    <icon>https://tangbl93.github.io/images/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[mdBook 搭建记录]]></title>
+        <id>mdBook 搭建记录</id>
+        <link href="https://tangbl93.github.io/blog/2021/05/01/mdbook"/>
+        <updated>2021-05-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[mdBook is a utility to create modern online books from Markdown files.]]></summary>
+    </entry>
+</feed>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Docusaurus Blog</title>
+        <link>https://tangbl93.github.io/blog</link>
+        <description>Docusaurus Blog</description>
+        <lastBuildDate>Sat, 01 May 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[mdBook 搭建记录]]></title>
+            <link>https://tangbl93.github.io/blog/2021/05/01/mdbook</link>
+            <guid>mdBook 搭建记录</guid>
+            <pubDate>Sat, 01 May 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[mdBook is a utility to create modern online books from Markdown files.]]></description>
+        </item>
+    </channel>
+</rss>
