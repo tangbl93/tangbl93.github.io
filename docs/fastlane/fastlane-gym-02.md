@@ -6,7 +6,7 @@ sidebar_position: 3
 
 上篇说了一些问题，这篇文章就来看一下怎么打包过程。这里就按照步骤来说一下。
 
-# 需求
+## 需求
 
 按照我们APP现有的需求，先列举一下:
 
@@ -16,7 +16,7 @@ sidebar_position: 3
 4. 由于可能会发测试版给外部用户安装，所以需要发送特定版本号给用户
 5. 需要支持打混淆分支，并将版本号同步非混淆分支
 
-# 非混淆分支
+## 非混淆分支
 
 首先，按照常规步骤先走一遍，来看看是如何做的。
 
@@ -27,7 +27,7 @@ lane :fir do
 end
 ```
 
-## 1. 解锁远程机器钥匙串
+### 1. 解锁远程机器钥匙串
 
 因为我个人本身还是习惯直接通过 `ssh` 的，所以按照上一篇的加上
 
@@ -38,7 +38,7 @@ sh "security unlock-keychain -p #{keychain_pass}"
 unlock_keychain(path: "~/Library/Keychains/login.keychain", password: "$(cat ~/.keychain_pass_file)")
 ```
 
-## 2. 拉取最新代码，重置本地修改
+### 2. 拉取最新代码，重置本地修改
 
 毕竟我们打包肯定要用最新代码的吧，所以这一步做了一些事，且保证不会和我们上传的有区别:
 
@@ -59,7 +59,7 @@ sh "pod update --no-repo-update"
 sh "git reset --hard"
 ```
 
-## 3. 修改版本号
+### 3. 修改版本号
 
 这里有点坑，`fastlane` 自带的那个 `increment_build_number` 有点坑，没办法使用。所以只能就手动读取、设置
 
@@ -89,7 +89,7 @@ set_info_plist_value(path: "#{ENV["PLISTPATH"]}", key: "CFBundleShortVersionStri
 set_info_plist_value(path: "#{ENV["PLISTPATH"]}", key: "CFBundleVersion", value: current_build_version)
 ```
 
-## 4. 打包内购包
+### 4. 打包内购包
 
 这个步骤也就是指定了打包目录和打包类型，没什么好说的。
 
@@ -109,7 +109,7 @@ gym(
     output_directory:output_directory)
 ```
 
-## 5. 上传、推送消息
+### 5. 上传、推送消息
 
 - 上传到 `fir.im` 并从消息中读取到 Release id，这样子可以拼接成指定版本的链接(之前我们都是手动去网站找的，累)
 - 如果没有这个功能的话，建议更新一下。或者直接用 `fir publish -s #{ENV["FIRLINK"]} #{output_path}`
@@ -125,7 +125,7 @@ upload_url = "https://fir.im/#{ENV["FIRLINK"]}?release_id=#{release_id}"
 dingtalk(access_token:dingtoken, title:upload_msg, message:upload_msg, more_url: upload_url)
 ```
 
-## 6. 收尾工作
+### 6. 收尾工作
 
 - 重置一次当前的修改，保证当前环境的干净
 - 再拉取一次服务器代码。如果在打包时有同事提交了代码，就会导致提交时报错误
@@ -150,7 +150,7 @@ sh "git push origin #{branch_name} --tags"
 sh "git push origin #{branch_name}"
 ```
 
-# 混淆分支
+## 混淆分支
 
 由于马甲包为了上架做了些混淆工作，所以会创建一个单独的 `分支名_appstore` 的分支作为混淆分支，这样会便于同步最新代码
 
@@ -188,11 +188,11 @@ sh "git push origin #{branch_name}"
 end
 ```
 
-# 完整代码
+## 完整代码
 
-其实上边已经把我整个打包脚本代码贴出来了，其中也没有什么敏感信息。
+整个打包脚本代码已经在上面贴出来了，其中也没有什么敏感信息。
 
-## 环境变量文件
+### 环境变量文件
 
 > 文件保存到和 `Fastfile` 同级，名称应为 `.env.xxx`。命令记得带上 `fastlane fir --env xxx`
 
@@ -205,9 +205,9 @@ APPNAME=""                      # APP名，中英文随意
 TAGNAME=""                      # git标签名，叫什么随意，不过最好有点意义，可以用拼音或者英文名 
 ```
 
-## Fastfile
+### Fastfile
 
-这里我按照上篇的考虑，选择了从远程获取，这样可以始终保持最新版本
+这里按照上篇的考虑，选择了从远程获取，这样可以始终保持最新版本。
 
 ```
 import_from_git(url: '....git', path: 'Fastfile')
